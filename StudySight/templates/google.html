@@ -1,0 +1,135 @@
+ <!DOCTYPE html>
+ <html lang="en">
+
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #googleMap, #googleMap2 {
+        float: left;
+        height: 450px;
+        width: 46%;
+      }
+    #space{
+                float: left;
+
+        width: 4%;
+        height: 400px;
+    }
+    #sidespace{
+         float: left;
+
+        width: 2%;
+        height: 400px;
+    }
+    </style>
+
+</head>
+<body>
+
+<h1 style="text-align: center;margin-bottom: 20px">University of Pittsburgh Campus</h1>
+
+<div id="sidespace"></div>
+<div id="googleMap"></div>
+<div id="space"></div>
+<div id="googleMap2"></div>
+<div id="sidespace"></div>
+
+
+<script>
+/*
+    function increment(){
+         import sqlite3
+           with sqlite3.connect('room.db') as connection:
+           c = connection.cursor()
+           c.execute('CREATE TABLE locations(name TEXT,latitude INTEGER, longitude INTEGER)')
+
+
+    }
+*/
+    function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function myMap() {
+
+    var x = getParameterByName('x');
+    var y = getParameterByName('y');
+    var myCenter = new google.maps.LatLng(x,y);
+
+  var mapCanvas = document.getElementById("googleMap");
+
+  var mapOptions = {center: myCenter, zoom: 16,
+  panControl: true,
+    zoomControl: true,
+    mapTypeControl: true,
+    scaleControl: true,
+    streetViewControl: true,
+    overviewMapControl: true,
+    rotateControl: true   };
+
+    <!-- COnstructor -->
+  var map = new google.maps.Map(mapCanvas, mapOptions);
+  var marker = new google.maps.Marker({position:myCenter});
+  marker.setMap(map);
+
+    <!-- Event handler on marker -->
+    google.maps.event.addListener(marker,'click',function() {
+  map.setZoom(20);
+  map.setCenter(marker.getPosition());
+  });
+
+            var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById('googleMap2'), {
+              position: myCenter,
+              pov: {
+                heading: 34,
+                pitch: 10
+              }
+            });
+        map.setStreetView(panorama);
+}
+
+
+
+</script>
+<!--
+<div>
+    <br>
+    <h3>POSTS:</h3>
+    {% for post in posts %}
+        <strong>Title:</strong> {{ post.title }}
+        <strong>Post:</strong> {{ post.description }}
+    <br>
+    {% endfor %}
+</div>
+-->
+<div style="text-align:center;margin-top: 550px">
+    <button type="button" class="btn btn-default btn-lg btn-success" onclick="increment()">
+  <i class="fa fa-check" aria-hidden="true"></i> Check in </button>
+    <button style="margin-left: 20px" type="button" class="btn btn-default btn-lg btn-danger" onclick="decrement()">
+  <i class="fa fa-window-close" aria-hidden="true"></i> Check out </button>
+
+
+    </div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByv1t3c8nI6_IzydW6eP_MuAronHXI57E&callback=myMap"></script>
+
+</body>
+</html> 

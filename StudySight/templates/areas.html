@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="googleMap" style="width:100%;height:400px;">
+</div>
+
+
+    <h3>Places to Study:</h3>
+    {% for place in locations %}
+        <strong>Name:</strong> {{ place.name }}
+        <strong>Latitude:</strong> {{ place.latitude }}
+        <strong>Longitude:</strong> {{ place.longitude }}
+
+    <br>
+    {% endfor %}
+
+
+<script>
+function myMap() {
+
+
+
+    var myCenter = new google.maps.LatLng(40.44208071074587,-79.95476245880127);
+
+  var mapCanvas = document.getElementById("googleMap");
+
+  var mapOptions = {center: myCenter, zoom: 18,
+  panControl: true,
+    zoomControl: true,
+    mapTypeControl: true,
+    scaleControl: true,
+      minZoom:14,
+    streetViewControl: true,
+    overviewMapControl: true,
+    rotateControl: true   };
+
+    <!-- Constructor -->
+  var map = new google.maps.Map(mapCanvas, mapOptions);
+
+
+
+{% for place in locations %}
+
+var myLatLng = {lat: {{ place.latitude }}, lng: {{ place.longitude }}};
+
+
+    var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+
+        <!-- Event handler on marker -->
+
+
+     var contentString = "{{ place.name }}";
+
+  var infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+
+
+
+
+
+    {% endfor %}
+
+
+
+
+
+}
+</script>
+
+
+
+
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByv1t3c8nI6_IzydW6eP_MuAronHXI57E&callback=myMap"></script>
+
+
+
+
+
+</body>
+</html>
